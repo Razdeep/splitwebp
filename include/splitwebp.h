@@ -30,15 +30,15 @@
 
 namespace splitwebp {
     class SplitWebP {
-        std::string input_file_name = "";
-        uint8_t* encoded_data = nullptr;
+        std::string mInputFileName = "";
+        uint8_t* mEncodedData = nullptr;
         std::vector<cv::Mat> mFrameList;
     public:
         explicit SplitWebP() = delete;
-        explicit SplitWebP(const char * input_file_name): input_file_name(input_file_name) {}
+        explicit SplitWebP(const char * input_file_name): mInputFileName(input_file_name) {}
         bool setInputFile(const char *);
-        std::string getInputFile() const;
-        bool checkFileExistence() const;
+        std::string getInputFileName() const;
+        bool existsInputFile() const;
         bool load();
         bool produce() const;
     };

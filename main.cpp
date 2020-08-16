@@ -35,7 +35,6 @@ int main(int argc, const char* argv[]) {
             splitwebp::Util::showHelp();
         } else {
             splitwebp::SplitWebP splitWebP(argv[1]);
-            splitWebP.checkFileExistence();
             splitWebP.load();
         }
     }
