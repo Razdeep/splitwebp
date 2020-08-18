@@ -22,29 +22,17 @@
  * SOFTWARE.
  */
 
-#include <iostream>
-#include "util.h"
-#include "splitwebp.h"
-int main(int argc, const char* argv[]) {
-    if (argc == 1) {
-        splitwebp::Util::showHelp();
-    } else if (argc == 2) {
-        if (std::strcmp(argv[1], "--help") * std::strcmp(argv[1], "-h") == 0) {
-            splitwebp::Util::showHelp();
-        } else if (std::strcmp(argv[1], "--version") * std::strcmp(argv[1], "-v") == 0) {
-            splitwebp::Util::showHelp();
-        } else {
-            splitwebp::SplitWebP splitWebP(argv[1]);
-            if (!splitWebP.load()) {
-                splitwebp::Util::printError("Error in loading");
-                return EXIT_FAILURE;
-            }
-            if (!splitWebP.produce()) {
-                splitwebp::Util::printError("Error in exporting images");
-                return EXIT_FAILURE;
-            }
-        }
-    }
 
-    return EXIT_SUCCESS;
+#ifndef SPLITWEBP_FRAMESEXPORTER_PNG_H
+#define SPLITWEBP_FRAMESEXPORTER_PNG_H
+
+#include "framesexporter.h"
+namespace splitwebp {
+    class FrameExporter_PNG: public splitwebp::FramesExporter {
+    public:
+        FrameExporter_PNG();
+        ~FrameExporter_PNG() {}
+        void exportFrames() override;
+    };
 }
+#endif //SPLITWEBP_FRAMESEXPORTER_PNG_H

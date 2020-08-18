@@ -23,10 +23,13 @@
  */
 
 #include <iostream>
+#include <memory>
 #include "splitwebp.h"
 #include "util.h"
 #include <webp/decode.h>
 #include <webp/demux.h>
+#include "framesexporter.h"
+#include "framesexporter_PNG.h"
 
 bool splitwebp::SplitWebP::setInputFile(const char* input_file_name) {
     mInputFileName = input_file_name;
@@ -59,6 +62,7 @@ bool splitwebp::SplitWebP::load() {
     auto fs_end_pos   = fs.tellg();
     size_t file_size  = fs_end_pos - fs_start_pos;
     char *file_contents = new char[file_size];
+    fs.seekg(0, std::ios::beg);
     fs.read(file_contents, file_size);
     fs.close();
 
@@ -68,8 +72,20 @@ bool splitwebp::SplitWebP::load() {
 
     WebPDemuxer* demux = WebPDemux(webPData);
 
+    if (demux == nullptr) {
+        splitwebp::Util::printError("Webp parsing error");
+        return false;
+    }
+
     uint32_t video_height = WebPDemuxGetI(demux, WEBP_FF_CANVAS_WIDTH);
     uint32_t video_width  = WebPDemuxGetI(demux, WEBP_FF_CANVAS_HEIGHT);
+    uint32_t webp_flags   = WebPDemuxGetI(demux, WEBP_FF_FORMAT_FLAGS);
+
+    if ((webp_flags & ANIMATION_FLAG) == 0) {
+        splitwebp::Util::printError("Input is not Animation");
+        return false;
+    }
+
     WebPIterator current_frame_iter;
 
     if (WebPDemuxGetFrame(demux, 1, &current_frame_iter)) {
@@ -78,9 +94,14 @@ bool splitwebp::SplitWebP::load() {
             int frame_width     = current_frame_iter.width;
             int x_offset        = current_frame_iter.x_offset;
             int y_offset        = current_frame_iter.y_offset;
-            uint8_t* current_decoded_frame = WebPDecodeRGBA(current_frame_iter.fragment.bytes,
+            uint8_t* current_decoded_frame = WebPDecodeBGRA(current_frame_iter.fragment.bytes,
                                                             current_frame_iter.fragment.size,
                                                             &frame_width, &frame_height);
+
+            if (current_decoded_frame == nullptr) {
+                splitwebp::Util::printError("Animation frame is corrupted");
+                return false;
+            }
 
             cv::Mat current_frame_mat(frame_height, frame_width, CV_8UC4, current_decoded_frame);
             cv::Mat padded_current_frame_mat = current_frame_mat;
@@ -113,6 +134,9 @@ bool splitwebp::SplitWebP::load() {
         } while (WebPDemuxNextFrame(&current_frame_iter));
 
         WebPDemuxReleaseIterator(&current_frame_iter);
+    } else {
+        splitwebp::Util::printError("WebP file has no frames");
+        return false;
     }
 
     WebPDemuxDelete(demux);
@@ -120,5 +144,10 @@ bool splitwebp::SplitWebP::load() {
 }
 
 bool splitwebp::SplitWebP::produce() const {
-    return false; // @TODO Implement
+    std::shared_ptr<FramesExporter> frame_exporter = std::make_shared<FrameExporter_PNG>();
+    frame_exporter->loadFrames(mFrameList);
+    std::string outputFilePrefix = mInputFileName.substr(0, mInputFileName.find('.'));
+    frame_exporter->setOutputFilePrefix(outputFilePrefix);
+    frame_exporter->exportFrames();
+    return true;
 }

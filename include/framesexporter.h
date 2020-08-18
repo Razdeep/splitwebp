@@ -22,29 +22,30 @@
  * SOFTWARE.
  */
 
-#include <iostream>
-#include "util.h"
-#include "splitwebp.h"
-int main(int argc, const char* argv[]) {
-    if (argc == 1) {
-        splitwebp::Util::showHelp();
-    } else if (argc == 2) {
-        if (std::strcmp(argv[1], "--help") * std::strcmp(argv[1], "-h") == 0) {
-            splitwebp::Util::showHelp();
-        } else if (std::strcmp(argv[1], "--version") * std::strcmp(argv[1], "-v") == 0) {
-            splitwebp::Util::showHelp();
-        } else {
-            splitwebp::SplitWebP splitWebP(argv[1]);
-            if (!splitWebP.load()) {
-                splitwebp::Util::printError("Error in loading");
-                return EXIT_FAILURE;
-            }
-            if (!splitWebP.produce()) {
-                splitwebp::Util::printError("Error in exporting images");
-                return EXIT_FAILURE;
-            }
-        }
-    }
+#ifndef SPLITWEBP_FRAMESEXPORTER_H
+#define SPLITWEBP_FRAMESEXPORTER_H
 
-    return EXIT_SUCCESS;
+#include <iostream>
+#include <vector>
+#include <opencv2/opencv.hpp>
+
+namespace splitwebp {
+    class FramesExporter {
+    protected:
+        std::vector<cv::Mat> mFrameList;
+        std::string mOutputFilePrefix;
+        std::string mOutputFileExtension;
+        uint8_t mFrameSequencePadding;
+    public:
+        FramesExporter() {}
+        ~FramesExporter() {}
+        virtual void loadFrames(const std::vector<cv::Mat>& frameList);
+        virtual std::string getOutputFileExtension() const;
+        virtual std::string getOutputFilePrefix() const;
+        virtual void setOutputFileExtension(const std::string&);
+        virtual void setOutputFilePrefix(const std::string&);
+        virtual uint8_t getFrameSequencePadding() const;
+        virtual void exportFrames() = 0;
+    };
 }
+#endif //SPLITWEBP_FRAMESEXPORTER_H
