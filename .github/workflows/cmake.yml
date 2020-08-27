@@ -7,23 +7,37 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.configuration.os }}
+
+    strategy:
+      matrix:
+        configuration:
+          - {
+            os: macos-latest,
+            install_dependencies_command: "brew update && brew install opencv@3 && brew link --force opencv@3",
+            cmake_configure_command: "cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DOpenCV_DIR=\"/usr/opt/opencv@3\"",
+          }
+          - {
+            os: ubuntu-latest,
+            install_dependencies_command: "sudo apt update && sudo apt install -y libopencv-dev",
+            cmake_configure_command: "cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE",
+          }
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Install OpenCV
-      run: sudo apt update && sudo apt install -y libopencv-dev
+      - name: Install OpenCV
+        run: ${{ matrix.configuration.install_dependencies_command }}
 
-    - name: Create Build Environment
-      run: cmake -E make_directory ${{runner.workspace}}/build
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{runner.workspace}}/build
 
-    - name: Configure CMake
-      shell: bash
-      working-directory: ${{runner.workspace}}/build 
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      - name: Configure CMake
+        shell: bash
+        working-directory: ${{runner.workspace}}/build
+        run: ${{ matrix.configuration.cmake_configure_command }}}
 
-    - name: Build
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      run: cmake --build . --config $BUILD_TYPE
+      - name: Build
+        working-directory: ${{runner.workspace}}/build
+        shell: bash
+        run: cmake --build . --config $BUILD_TYPE
