@@ -1,11 +1,17 @@
-<br/><br/>
+# SplitWebP
+
+A command line tool that helps in splitting webp animation into images
+
+<br/>
 <div align="center">
     <img src="./assets/splitwebp_logo.png" alt="splitwebp">
 </div>
-<br/><br/>
+<hr>
 
-# SplitWebP
-A command line tool that helps in splitting webp animation into images
+![Build Status](https://github.com/Razdeep/splitwebp/workflows/CMake/badge.svg)
+![Issues](https://img.shields.io/github/license/Razdeep/splitwebp?style=plastic)
+![Build Status](https://img.shields.io/github/stars/Razdeep/splitwebp?style=plastic)
+![Issues](https://img.shields.io/github/issues/Razdeep/splitwebp?style=plastic)
 
 ## Dependencies
  - g++
