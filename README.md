@@ -18,6 +18,7 @@ A command line tool that helps in splitting webp animation into images
  - cmake
  - OpenCV 3
  - libwebp
+ - hdf5
 
 ## Building & Installing from source
  - Open terminal and navigate to your working directory.
