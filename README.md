@@ -18,7 +18,8 @@ A command line tool that helps in splitting webp animation into images
  - cmake
  - OpenCV 3
  - libwebp
- - hdf5
+
+Note: hld5 is a dependency for OpenCV, and may need to be installed manually.
 
 ## Building & Installing from source
  - Open terminal and navigate to your working directory.
@@ -29,6 +30,15 @@ A command line tool that helps in splitting webp animation into images
  $ mkdir build && cd build
  $ cmake .. && cmake --build .
  $ sudo make install
+ ```
+
+### Running tests
+
+ - Open terminal and navigate to your build directory.
+ - Run the following commands
+ ```bash
+ $ cmake .. -DBUILD_TESTS=ON
+ $ make && make test
  ```
 
 ## License

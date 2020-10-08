@@ -26,4 +26,8 @@ target_link_libraries(splitwebp webp webpdemux pthread)
 
 # add unit tests
 enable_testing()
-add_subdirectory(test)
+
+option(BUILD_TESTS "Build all tests" OFF)
+if (BUILD_TESTS)
+    add_subdirectory(test)
+endif()
