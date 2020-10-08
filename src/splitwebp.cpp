@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#include <iostream>
+#include <fstream>
 #include <memory>
 #include "splitwebp.h"
 #include "util.h"

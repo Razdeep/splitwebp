@@ -23,3 +23,11 @@ file(GLOB_RECURSE sources "src/*.cpp")
 add_executable(splitwebp main.cpp ${sources})
 target_link_libraries(splitwebp ${OpenCV_LIBS})
 target_link_libraries(splitwebp webp webpdemux pthread)
+
+# add unit tests
+enable_testing()
+
+option(BUILD_TESTS "Build all tests" OFF)
+if (BUILD_TESTS)
+    add_subdirectory(test)
+endif()
