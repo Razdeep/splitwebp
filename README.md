@@ -30,6 +30,10 @@ A command line tool that helps in splitting webp animation into images
  $ sudo make install
  ```
 
+### For Windows platform
+
+Please read this [README file](/docs/README-windows.md)
+
 ## License
 
 MIT License
