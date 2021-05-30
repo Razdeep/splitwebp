@@ -30,7 +30,7 @@ enable_testing()
 option(BUILD_TESTS "Build all tests" OFF)
 if (BUILD_TESTS)
 
-include(FetchContent)
+    include(FetchContent)
     FetchContent_Declare(
     googletest
     URL 

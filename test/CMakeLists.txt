@@ -2,7 +2,6 @@
 # Requiring V 3.10 for gtest_discover_tests
 cmake_minimum_required(VERSION 3.10)
 find_package(OpenCV REQUIRED)
-find_package(GTest REQUIRED)
 enable_testing()
 
 # finds all .cpp files under this directory (./test) and add them to executable
@@ -15,8 +14,6 @@ include_directories("../3rdparty/libwebp/include")
 # Link gtest libraries
 target_link_libraries(splitwebp_tests ${OpenCV_LIBS})
 target_link_libraries(splitwebp_tests webp webpdemux pthread)
-# target_link_libraries(splitwebp_tests GTest::GTest GTest::Main)
-
 target_link_libraries(splitwebp_tests gtest_main)
 
 set(CTEST_OUTPUT_ON_FAILURE 1)
