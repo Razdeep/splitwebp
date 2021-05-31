@@ -15,12 +15,12 @@ jobs:
           - {
             os: macos-latest,
             install_dependencies_command: "brew update && brew install opencv@3 && brew link --force opencv@3",
-            cmake_configure_command: "cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DOpenCV_DIR=\"/usr/opt/opencv@3\"",
+            cmake_configure_command: "cmake $GITHUB_WORKSPACE -DBUILD_TESTS=ON -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DOpenCV_DIR=\"/usr/opt/opencv@3\"",
           }
           - {
             os: ubuntu-latest,
             install_dependencies_command: "sudo apt update && sudo apt install -y libopencv-dev",
-            cmake_configure_command: "cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE",
+            cmake_configure_command: "cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_TESTS=ON",
           }
 
     steps:
@@ -40,7 +40,7 @@ jobs:
       - name: Build
         working-directory: ${{runner.workspace}}/build
         shell: bash
-        run: cmake --build . -DBUILD_TESTS=ON --config $BUILD_TYPE
+        run: cmake --build . --config $BUILD_TYPE
       
       - name: Tests
         working-directory: ${{runner.workspace}}/build
