@@ -8,9 +8,9 @@ A command line tool that helps in splitting webp animation into images
 </div>
 <hr>
 
-![Build Status](https://github.com/Razdeep/splitwebp/workflows/CMake/badge.svg)
-![Issues](https://img.shields.io/github/license/Razdeep/splitwebp?style=plastic)
-![Build Status](https://img.shields.io/github/stars/Razdeep/splitwebp?style=plastic)
+[![Build](https://github.com/Razdeep/splitwebp/actions/workflows/build.yml/badge.svg)](https://github.com/Razdeep/splitwebp/actions/workflows/build.yml)
+![License](https://img.shields.io/github/license/Razdeep/splitwebp?style=plastic)
+![Stars](https://img.shields.io/github/stars/Razdeep/splitwebp?style=plastic)
 ![Issues](https://img.shields.io/github/issues/Razdeep/splitwebp?style=plastic)
 
 ## Dependencies
