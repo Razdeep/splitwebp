@@ -21,4 +21,4 @@ set(CTEST_OUTPUT_ON_FAILURE 1)
 # Find all tests in all .cpp files and convert to CTests
 include(GoogleTest)
 
-gtest_discover_tests(splitwebp_tests PROPERTIES TIMEOUT 60)
+gtest_discover_tests(splitwebp_tests PROPERTIES TIMEOUT 600)
