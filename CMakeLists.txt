@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 11)
 find_package(OpenCV REQUIRED)
 
 if (APPLE)
-    message(STATUS "Detected Operating System: Mac OS")
+    message(STATUS "Detected Operating System: MacOS")
     link_directories("3rdparty/libwebp/lib/mac")
 elseif (UNIX)
     message(STATUS "Detected Operating System: Linux")
@@ -43,4 +43,7 @@ if (BUILD_TESTS)
     include(GoogleTest)
 
     add_subdirectory(test)
+
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -ftest-coverage -fprofile-arcs")
+
 endif()
