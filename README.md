@@ -40,6 +40,10 @@ Note: hld5 is a dependency for OpenCV, and may need to be installed manually.
  $ cmake .. -DBUILD_TESTS=ON
  $ make && make test
  ```
+ 
+### For Windows platform
+
+Please read this [README file](/docs/README-windows.md)
 
 ## License
 
